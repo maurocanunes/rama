@@ -2,14 +2,15 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
+#loading {
+  height: 30vmin;
   pointer-events: none;
+  /* display: none; */
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  #loading {
+    animation: App-logo-spin infinite 3s linear;
   }
 }
 
@@ -35,4 +36,37 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Saira+Extra+Condensed:500'); */
+/* Minimal Reset */ 
+html, body, div, h2, p, section, audio {  
+  margin: 0;  
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  text-align: center;
+} 
+html {
+  font-size: 24px;
+  /* sbackground-image: url(./background.jpg); */
+} 
+body {
+  align-items: center;
+  /* background: black; */
+  color: rgb(229, 177, 58);
+  display: flex;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  /* height: 100vh; */
+  justify-content: center;
+  line-height: 1.25;
+  /* overflow: hidden; */
+}
+
+.divClass:hover {
+  cursor: pointer;
 }
