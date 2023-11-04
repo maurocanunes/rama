@@ -10,6 +10,11 @@ import Cookies from 'js-cookie';
 import { useState } from 'react';
 
 function Navigation() {
+
+/**
+ * TODO add the user page for the route /user/:id
+ */
+
   const [navKey, setNavKey] = useState(0);
 
   const Component = () => {
