@@ -66,8 +66,9 @@ function App() {
         <BrowserRouter>
             <Routes>
               <Route path='/' element={<CardList jobs={jobList} setCardId={setCardId} />} />
-              <Route path="/login" element={<LoginRegister />} />
-              <Route path={`/job/:id`} element={<JobInfo cardId={cardId} selectedJob={selectedJob} />}/>
+              <Route path='/login' element={<LoginRegister />} />
+              {/* <Route path='/user/:id' element={<User />} /> */}
+              <Route path='/job/:id' element={<JobInfo cardId={cardId} selectedJob={selectedJob} getJobs={getJobs}/>}/>
             </Routes>
         </BrowserRouter>
       </div>
