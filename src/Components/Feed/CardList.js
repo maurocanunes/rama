@@ -2,12 +2,12 @@ import React from "react";
 import Card from "./Card";
 
 
-const CardList = ({ onCardSelected, jobs}) => {
+const CardList = ({ setCardId, jobs}) => {
     return (
         <div id="cardList">
            {
                 jobs.map(data => {
-                    return <Card key={data.id} index={data.id} job={data} onCardSelected={onCardSelected}/>
+                    return <Card key={data.id} index={data.id} job={data} setCardId={setCardId}/>
                 })
            }
         </div>

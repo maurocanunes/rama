@@ -22,8 +22,12 @@ function App() {
   }
 
   useEffect(() => {
-    getJobs();
-  },[])
+    if (cardId && !selectedJob.id) {
+      getJobs(cardId)
+    } else if (!cardId) {
+      getJobs();
+    }
+  },[cardId, selectedJob])
 
   const getJobs = (id=0) => {
     if(id===0) {
@@ -55,22 +59,15 @@ function App() {
     }
   }
 
-  const onCardSelected = (selected) => {
-    setCardId(selected)
-    this.getJobs(selected)
-  }
-
   return (
     <>
     <Navigation /> 
       <div id='wrappingDiv'>
         <BrowserRouter>
             <Routes>
-              <Route path='/' element={<CardList jobs={jobList} onCardSelected={onCardSelected} />} />
-              {/* <Route path="/protected/*" element={<CardList jobs={jobList} onCardSelected={onCardSelected} />} /> */}
-              {/* <Route path='/protected/*' element={<ProtectedPage />} /> */}
+              <Route path='/' element={<CardList jobs={jobList} setCardId={setCardId} />} />
               <Route path="/login" element={<LoginRegister />} />
-              <Route path={`/job/:cardId`} element={<JobInfo cardId={cardId} selectedJob={selectedJob} />}/>
+              <Route path={`/job/:id`} element={<JobInfo cardId={cardId} selectedJob={selectedJob} />}/>
             </Routes>
         </BrowserRouter>
       </div>

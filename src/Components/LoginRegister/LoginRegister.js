@@ -13,7 +13,7 @@ function LoginRegister() {
     let userIsLoggedIn = false;
 
     useEffect(() => {
-        if (userIsLoggedIn) {
+        if (!!Cookies.get('auth')) {
             navigate('/')
         }
     }, [userIsLoggedIn]);

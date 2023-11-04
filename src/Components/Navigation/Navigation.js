@@ -22,6 +22,7 @@ function Navigation() {
   </>
 
   if (!!Cookies.get('auth')) {
+    const user = JSON.parse(Cookies.get('auth'));
     comp = <>
       <Navbar.Offcanvas
         id={`offcanvasNavbar-expand-sm`}
@@ -52,7 +53,7 @@ function Navigation() {
             </NavDropdown>
             <Navbar.Collapse className="justify-content-end">
               <NavDropdown 
-                // title={`Signed in as: ${this.props.user.name}`}
+                title={`Signed in as: ${user.name}`}
                 id={`offcanvasNavbarDropdown-expand-sm`}>
                 <NavDropdown.Item eventKey={'profile'}>
                   My Profile
