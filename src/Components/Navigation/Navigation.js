@@ -51,7 +51,7 @@ function Navigation() {
                   <NavDropdown.Item onClick={async () => {
                       await signOut(auth);
                     }} href='/login'>
-                    Log Out
+                    Sair
                   </NavDropdown.Item>
   
                 </NavDropdown>
@@ -75,7 +75,7 @@ function Navigation() {
     <>
         <Navbar variant='light' expand='sm' className="bg-white sticky-top mb-3">
           <Container fluid>
-            <Navbar.Brand className="link dim black mw5 dt hide-child pa1 br2 pointer" href='/' >Messages</Navbar.Brand>
+            <Navbar.Brand className="link dim black mw5 dt hide-child pa1 br2 pointer" href='/' >Menssagens</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-sm`} />
             <Form className="d-flex">
                   <Form.Control

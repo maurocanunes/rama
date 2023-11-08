@@ -50,7 +50,7 @@ const Card = ({index, message}) => {
     }
   
     return (
-        <div id={index} onClick={click}className=" ba b-black tc bg-green dib br3 pa3 ma2 grow bw2 shadow-5">
+        <div id={index} onClick={click} className=" ba b-black tc bg-green dib br3 pa3 ma2 grow bw2 shadow-5 pointer dim">
             <div>
                 {fields}
             </div>

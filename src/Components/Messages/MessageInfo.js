@@ -1,16 +1,18 @@
 import { React, useEffect, useState} from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../../Config/Firebase";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, deleteDoc } from "firebase/firestore";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navigation from "../Navigation/Navigation";
+import { Button } from "react-bootstrap";
 
 const MessageInfo = () => {
 
     const {id} = useParams();
     const messageRef = doc(db, 'messages', id);
+    const navigate = useNavigate();
 
     const [message, setMessage] = useState({});
 
@@ -21,7 +23,6 @@ const MessageInfo = () => {
         day: "numeric",
         timeZone: 'UTC',
         };
-
     useEffect(() => {
         const getMessage = async () => {
           try {
@@ -35,7 +36,17 @@ const MessageInfo = () => {
         }
         getMessage();
     },[])
-    let date = new Date(message.messageSentDate.seconds * 1000).toLocaleDateString("pt-BR", options)
+    let date = new Date(message?.messageSentDate?.seconds * 1000).toLocaleDateString("pt-BR", options)
+
+    const deleteMessage = async () => {
+        try {
+            await deleteDoc(messageRef)
+            navigate('/');
+            navigate(0,);
+        } catch(error) {
+            console.log(error);
+        }
+    }
     return (
         <>
             <Navigation />
@@ -71,6 +82,18 @@ const MessageInfo = () => {
                     <div className="ba b-dotted br3 shaddow-1 mv2">
                         {date}
                     </div>
+                </Row>
+                <Row>
+                    <Col>
+                        <Button variant="warning" >
+                            Arquivar
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button variant="danger" onClick={() => {
+                            deleteMessage();
+                        }}> Deletar</Button>
+                    </Col>
                 </Row>
             </Container>
         </>
