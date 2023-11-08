@@ -1,16 +1,21 @@
 import React from "react";
 import Card from "./Card";
+import Navigation from "../Navigation/Navigation";
 
 
-const CardList = ({ setCardId, jobs}) => {
+const CardList = ({ messages }) => {
     return (
-        <div id="cardList">
-           {
-                jobs.map(data => {
-                    return <Card key={data.id} index={data.id} job={data} setCardId={setCardId}/>
-                })
-           }
-        </div>
+        <>
+            <Navigation />
+            <div id="cardList">
+            {
+                messages.map(data => {
+
+                    return <Card key={data.id} index={data.id} message={data} />
+                    })
+                }
+            </div>
+        </>
     ); 
 }
 

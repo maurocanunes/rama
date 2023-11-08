@@ -1,57 +1,54 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import './LaginRegister.css';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { auth, googleProvider } from "../../Config/Firebase";
+import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import Navigation from "../Navigation/Navigation";
 
-function LoginRegister() {
+const LoginRegister = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    let userIsLoggedIn = false;
-
-    useEffect(() => {
-        if (!!Cookies.get('auth')) {
-            navigate('/')
-        }
-    }, [userIsLoggedIn]);
     
-    const getUser = () => {
-        fetch('http://localhost:3000/login', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        })
-        .then(response => response.json())
-        .then(user => {
-            if (user.id) {
-                const expirationTime = new Date(new Date().getTime() + 60000);
-                Cookies.set('auth', JSON.stringify(user), { expires: expirationTime });
-                userIsLoggedIn = true
-            }
-        });
-    }
-
-    const onSubmitButton = async () => {
-        if (!(email.includes('@') && email.includes('.com'))) {
-            return alert('Not a valid email');
+    const signIn = async (event) => {
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            afterSignIn()
+        } catch (error) {
+            console.log('code', error.code);
+            console.log('message', error.message);
         }
-        await getUser();
-
-        // if (!!Cookies.get('auth')) {
-        //     console.log('has auth')
-        //     navigate('/');
-        // } else {
-        //     console.log('no auth')
-        // }  
-    }    
+    }
+    const signInWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+            afterSignIn()
+        } catch (error) {
+            console.log('code', error.code);
+            console.log('message', error.message);
+        }
+    }
+    const afterSignIn = () => {
+        if (auth.currentUser) {
+            navigate('/message');
+        } else {
+            alert('Try signing in again')
+        }
+    }
+    const logOut = async () => {
+        try {
+            await signOut(auth);
+        } catch (error) {
+            console.log('code', error.code);
+            console.log('message', error.message);
+        }
+    }
     return (
         <>
+        <Navigation />
         <Form>
             <FloatingLabel
                 id="emailLabel"
@@ -64,13 +61,15 @@ function LoginRegister() {
             <FloatingLabel controlId="floatingPassword" label="Password">
                 <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
             </FloatingLabel>
-            <Button  onClick={onSubmitButton} className="ma2" variant="primary" type="submit">
-                Submit
+            <Button  onClick={signIn} className="ma2" variant="primary" type="submit">
+                Sign In
             </Button>
+            <Button onClick={signInWithGoogle} className="ma2" variant="primary" type="button">
+                Sign In With Google
+            </Button>
+            <Button onClick={logOut} className="ma2" variant="danger" type="button">Log Out</Button>
         </Form>
         </>
-    );
-    
+    ); 
 }
-
 export default LoginRegister;

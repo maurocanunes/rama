@@ -6,21 +6,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Image from 'react-bootstrap/Image';
-import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { auth } from '../../Config/Firebase';
+import { signOut } from 'firebase/auth';
 
 function Navigation() {
 
-/**
- * TODO add the user page for the route /user/:id
- */
-
-  const [navKey, setNavKey] = useState(0);
-
   const Component = () => {
-
-    if (!!Cookies.get('auth')) {
-      const user = JSON.parse(Cookies.get('auth'));
+    if (auth.currentUser) {
       return ( <>
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-sm`}
@@ -34,7 +26,7 @@ function Navigation() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href="#action1">Doing</Nav.Link>
+              <Nav.Link href="/message">Enviar Menssagem</Nav.Link>
               <Nav.Link href="#action2">TODO</Nav.Link>
               <NavDropdown
                 title="Dropdown"
@@ -51,15 +43,14 @@ function Navigation() {
               </NavDropdown>
               <Navbar.Collapse className="justify-content-end">
                 <NavDropdown 
-                  title={`Signed in as: ${user.name}`}
+                  title={`Signed in as: ${auth?.currentUser?.displayName?.split(" ")[0]}`}
                   id={`offcanvasNavbarDropdown-expand-sm`}>
-                  <NavDropdown.Item href={`/user/${user.id}`}>
+                  {/* <NavDropdown.Item href={`/user/${user.id}`}>
                     My Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Item onClick={() => {
-                      Cookies.remove('auth');
-                      setNavKey(1);
-                    }}>
+                  </NavDropdown.Item> */}
+                  <NavDropdown.Item onClick={async () => {
+                      await signOut(auth);
+                    }} href='/login'>
                     Log Out
                   </NavDropdown.Item>
   
@@ -82,9 +73,9 @@ function Navigation() {
 
   return(
     <>
-        <Navbar variant='light' key={navKey} expand='sm' className="bg-white sticky-top mb-3">
+        <Navbar variant='light' expand='sm' className="bg-white sticky-top mb-3">
           <Container fluid>
-            <Navbar.Brand className="link dim black mw5 dt hide-child pa1 br2 pointer" href='/' >Oportunities</Navbar.Brand>
+            <Navbar.Brand className="link dim black mw5 dt hide-child pa1 br2 pointer" href='/' >Messages</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-sm`} />
             <Form className="d-flex">
                   <Form.Control
